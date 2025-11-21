@@ -1,0 +1,60 @@
+<template>
+    <lightning-card icon-name="custom:custom88" title="Apex News">
+        <div class="filter-container">
+            <lightning-input
+                name="keywords"
+                label="Search Keywords"
+                value={keywords}
+                onchange={handleInputChange}
+                placeholder="e.g. Salesforce, Google, AI">
+            </lightning-input>
+
+            <lightning-combobox
+                name="category"
+                label="Category"
+                value={category}
+                options={categoryOptions}
+                onchange={handleInputChange}>
+            </lightning-combobox>
+
+            <lightning-input type="date" name="fromDate" label="From Date" value={fromDate} onchange={handleInputChange}></lightning-input>
+            <lightning-input type="date" name="toDate" label="To Date" value={toDate} onchange={handleInputChange}></lightning-input>
+
+            <lightning-combobox
+                name="language"
+                label="Language"
+                value={language}
+                options={languageOptions}
+                onchange={handleInputChange}>
+            </lightning-combobox>
+
+            <lightning-button
+                variant="brand"
+                label="Search"
+                onclick={fetchNews}
+                class="slds-m-top_small">
+            </lightning-button>
+        </div>
+
+        <div class="news-container">
+            <template if:true={displayedNews}>
+                <template for:each={displayedNews} for:item="item">
+                    <div key={item.id} class="news-card">
+                        <img src={item.imageURL} alt="image" class="news-image">
+                        <div class="news-content">
+                            <p class="news-date">{item.publishDate}</p>
+                            <h2 class="news-title">{item.newsTitle}</h2>
+                            <a href={item.articleURL} target="_blank" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
+
+        <div class="pagination">
+            <button class="slds-button slds-button_neutral" onclick={handlePrev} disabled={isPrevDisabled}>Previous</button>
+            <span>Page {currentPage} of {totalPages}</span>
+            <button class="slds-button slds-button_brand" onclick={handleNext} disabled={isNextDisabled}>Next</button>
+        </div>
+    </lightning-card>
+</template>
